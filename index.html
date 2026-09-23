@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operations ATM - Suivi Carburant</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
+body{background:#0f172a;color:#fff;padding:16px}
+.card{background:#1e293b;border-radius:16px;padding:18px;margin-bottom:14px}
+h1{font-size:20px;text-align:center;margin:10px 0;color:#38bdf8}
+label{font-size:13px;color:#94a3b8;margin:8px 0 4px;display:block}
+input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{width:100%;padding:14px;border-radius:12px;border:0;font-weight:700;font-size:16px;margin-top:12px}
+.btn-primary{background:#38bdf8;color:#000}
+.btn-green{background:#22c55e;color:#000}
+.img-preview{width:100%;max-height:200px;object-fit:cover;border-radius:12px;margin-top:10px;display:none}
+.badge{display:inline-block;background:#38bdf814;color:#38bdf8;border:1px solid #38bdf830;padding:4px 10px;border-radius:20px;font-size:12px;margin:2px}
+table{width:100%;font-size:13px;border-collapse:collapse;margin-top:10px}
+th,td{padding:8px;border-bottom:1px solid #334155;text-align:right}
+</style>
+</head>
+<body>
+<h1>🚛 Operations ATM<br><small style="font-size:13px;color:#94a3b8">Suivi Carburant Entreprise ATM</small></h1>
+<div class="card">
+<label>Chantier / Engin</label><input id="engin" placeholder="Ex: Pelle 02">
+<div class="row"><div><label>Quantité</label><input id="qte" type="number"></div><div><label>Unité</label><select id="unite"><option value="L">Litre (L)</option><option value="T">Tonne (T)</option><option value="Q">Quintal (Q)</option></select></div></div>
+<div class="row"><div><label>Prix Unitaire (MAD)</label><input id="prix" type="number"></div><div><label>Date & Heure</label><input id="datetime" type="datetime-local"></div></div>
+<label>Photo Bon (PNG,JPG)</label><input id="photo" type="file" accept="image/png,image/jpeg"><img id="preview" class="img-preview"><label>Remarque</label><input id="note"><button class="btn btn-primary" onclick="ajouter()">+ Ajouter Opération</button>
+</div>
+<div class="card"><table id="table"><thead><tr><th>Date</th><th>Engin</th><th>Qté</th><th>MAD</th></tr></thead><tbody></tbody></table><button class="btn btn-green" onclick="exporter()">📤 Exporter Excel</button></div>
+<script>
+const datetimeEl=document.getElementById('datetime');datetimeEl.value=new Date().toISOString().slice(0,16);let ops=JSON.parse(localStorage.getItem('atm_ops')||'[]');let photoData='';document.getElementById('photo').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{photoData=ev.target.result;const p=document.getElementById('preview');p.src=photoData;p.style.display='block';};r.readAsDataURL(f);});function ajouter(){const engin=document.getElementById('engin').value||'ATM';const qte=parseFloat(document.getElementById('qte').value)||0;const unite=document.getElementById('unite').value;const prix=parseFloat(document.getElementById('prix').value)||0;const dt=datetimeEl.value||new Date().toISOString().slice(0,16);const note=document.getElementById('note').value;if(!qte){alert('دخل الكمية');return;}ops.unshift({engin,qte,unite,prix,dt,note,photo:photoData,total:qte*prix});localStorage.setItem('atm_ops',JSON.stringify(ops));render();}function render(){const tbody=document.querySelector('#table tbody');tbody.innerHTML='';ops.forEach(o=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${o.dt.replace('T',' ')}<br><small>${o.engin}</small></td><td>${o.qte} ${o.unite}</td><td>${o.prix}</td><td>${o.total.toFixed(2)}</td>`;tbody.appendChild(tr);});}function exporter(){let csv='Date,Engin,Quantite,Unite,Prix,Total,Note\n';ops.forEach(o=>{csv+=`"${o.dt}","${o.engin}",${o.qte},${o.unite},${o.prix},${o.total},"${o.note}"\n`;});const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Operations_ATM.csv';a.click();}render();
+</script>
+</body>
+</html>
