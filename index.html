@@ -1,37 +1,109 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Operations ATM - Suivi Carburant</title>
+<title>عمليات أجهزة الصراف الآلي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
-body{background:#0f172a;color:#fff;padding:16px}
-.card{background:#1e293b;border-radius:16px;padding:18px;margin-bottom:14px}
-h1{font-size:20px;text-align:center;margin:10px 0;color:#38bdf8}
-label{font-size:13px;color:#94a3b8;margin:8px 0 4px;display:block}
-input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #334155;background:#0f172a;color:#fff}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{width:100%;padding:14px;border-radius:12px;border:0;font-weight:700;font-size:16px;margin-top:12px}
-.btn-primary{background:#38bdf8;color:#000}
-.btn-green{background:#22c55e;color:#000}
-.img-preview{width:100%;max-height:200px;object-fit:cover;border-radius:12px;margin-top:10px;display:none}
-.badge{display:inline-block;background:#38bdf814;color:#38bdf8;border:1px solid #38bdf830;padding:4px 10px;border-radius:20px;font-size:12px;margin:2px}
-table{width:100%;font-size:13px;border-collapse:collapse;margin-top:10px}
-th,td{padding:8px;border-bottom:1px solid #334155;text-align:right}
+:root{--bg:#0f172a;--card:#1e293b;--card2:#263548;--accent:#0ea5e9;--accent2:#22d3ee;--green:#22c55e;--text:#e2e8f0;--muted:#94a3b8;--danger:#ef4444;--border:#334155}
+*{box-sizing:border-box;font-family:'Tajawal',sans-serif}
+body{margin:0;background:var(--bg);color:var(--text);min-height:100vh}
+header{position:sticky;top:0;z-index:50;background:rgba(15,23,42,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;gap:10px;align-items:center}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.app-title{font-weight:800;font-size:18px}
+.icon-btn{width:36px;height:36px;border-radius:10px;border:1px solid var(--border);background:var(--card);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.container{padding:14px;max-width:600px;margin:0 auto;padding-bottom:90px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:12px}
+.card-title{font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.input,select,textarea{width:100%;background:#0f172a;border:1px solid var(--border);border-radius:12px;padding:12px;color:var(--text);font-size:14px;outline:none}
+label{font-size:13px;color:var(--muted);margin-bottom:4px;display:block}
+.btn{border:none;border-radius:14px;padding:14px;font-weight:800;cursor:pointer;width:100%;font-size:15px}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#001018}
+.btn-ghost{background:var(--card2);color:var(--text);border:1px solid var(--border)}
+.badge{background:var(--card2);border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:12px}
+.stat{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--border);border-radius:16px;padding:12px;text-align:center}
+.stat b{font-size:22px;display:block}
+.tabs{position:fixed;bottom:0;left:0;right:0;background:rgba(15,23,42,.96);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:8px 0;z-index:60}
+.tab{flex:1;text-align:center;font-size:11px;color:var(--muted);cursor:pointer;padding:6px}
+.tab.active{color:var(--accent2)}.tab i{font-size:20px;display:block;margin-bottom:2px}
+.hidden{display:none!important}
+.notif{position:fixed;top:70px;left:12px;right:12px;background:var(--card2);border:1px solid var(--accent);border-radius:14px;padding:12px;z-index:80;display:flex;gap:10px;align-items:center}
+.chat-msg{background:var(--card2);border-radius:12px;padding:10px;margin-bottom:8px;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{color:var(--muted);font-weight:400;padding:8px;border-bottom:1px solid var(--border)} td{padding:10px 6px;border-bottom:1px solid #1f2e44}
+.img-preview{width:100%;max-height:180px;object-fit:cover;border-radius:12px;margin-top:8px;border:1px solid var(--border)}
+.shortcut{display:flex;align-items:center;gap:10px;background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:12px;cursor:pointer}
 </style>
 </head>
 <body>
-<h1>🚛 Operations ATM<br><small style="font-size:13px;color:#94a3b8">Suivi Carburant Entreprise ATM</small></h1>
-<div class="card">
-<label>Chantier / Engin</label><input id="engin" placeholder="Ex: Pelle 02">
-<div class="row"><div><label>Quantité</label><input id="qte" type="number"></div><div><label>Unité</label><select id="unite"><option value="L">Litre (L)</option><option value="T">Tonne (T)</option><option value="Q">Quintal (Q)</option></select></div></div>
-<div class="row"><div><label>Prix Unitaire (MAD)</label><input id="prix" type="number"></div><div><label>Date & Heure</label><input id="datetime" type="datetime-local"></div></div>
-<label>Photo Bon (PNG,JPG)</label><input id="photo" type="file" accept="image/png,image/jpeg"><img id="preview" class="img-preview"><label>Remarque</label><input id="note"><button class="btn btn-primary" onclick="ajouter()">+ Ajouter Opération</button>
+<header>
+<div class="logo"><div class="logo-icon" id="logoIcon">🚚</div><div><div class="app-title" id="appNameTxt">عمليات أجهزة الصراف الآلي</div><div style="font-size:11px;color:var(--muted)">تتبع الوقود - WHACKA V2</div></div></div>
+<div style="display:flex;gap:8px"><button class="icon-btn" onclick="showNotif('تم تفعيل التنبيهات 🔔')">🔔</button><button class="icon-btn" onclick="openPage('settings')">⚙️</button><button class="icon-btn" onclick="exitApp()">🚪</button></div>
+</header>
+<div id="notifBox" class="notif hidden"><span>⚠️</span><div style="flex:1"><b>تنبيه</b><div id="notifDesc" style="font-size:12px;color:var(--muted)">رسالة</div></div><button class="icon-btn" onclick="hideNotif()">✕</button></div>
+<div class="container">
+<div id="page-home">
+<div class="grid3"><div class="stat"><b id="sTotal">0</b><span style="font-size:11px;color:var(--muted)">إجمالي العمليات</span></div><div class="stat"><b id="sLiter">0 لتر</b><span style="font-size:11px;color:var(--muted)">الكمية</span></div><div class="stat"><b id="sCost">0 DH</b><span style="font-size:11px;color:var(--muted)">التكلفة</span></div></div>
+<div class="card" style="margin-top:12px"><div class="card-title">اختصارات سريعة <span class="badge">لوحة التحكم</span></div><div class="grid2"><div class="shortcut" onclick="openPage('add')"><span>⛽</span><div><b>إضافة وقود</b><div style="font-size:11px;color:var(--muted)">إدخال سريع</div></div></div><div class="shortcut" onclick="openPage('list')"><span>📋</span><div><b>السجل</b><div style="font-size:11px;color:var(--muted)">كل العمليات</div></div></div><div class="shortcut" onclick="openPage('instruct')"><span>📢</span><div><b>توجيهات</b><div style="font-size:11px;color:var(--muted)">من الإدارة</div></div></div><div class="shortcut" onclick="openPage('chat')"><span>💬</span><div><b>التواصل</b><div style="font-size:11px;color:var(--muted)">بين الأعضاء</div></div></div></div></div>
+<div class="card"><div class="card-title">آخر العمليات <button class="badge" onclick="openPage('list')">عرض الكل</button></div><div id="lastOps"></div></div>
 </div>
-<div class="card"><table id="table"><thead><tr><th>Date</th><th>Engin</th><th>Qté</th><th>MAD</th></tr></thead><tbody></tbody></table><button class="btn btn-green" onclick="exporter()">📤 Exporter Excel</button></div>
+<div id="page-add" class="hidden">
+<div class="card"><div class="card-title">إضافة عملية جديدة <span class="badge" id="dateNow"></span></div>
+<label>موقع بناء / معدات</label><input id="fSite" class="input" placeholder="مثال: مجرفة 02">
+<div class="grid2" style="margin-top:10px"><div><label>وحدة القياس</label><select id="fUnit" class="input"><option value="لتر">لتر (L)</option><option value="طن">طن</option><option value="قنطار">قنطار</option><option value="كغ">كغ</option></select></div><div><label>كمية</label><input id="fQty" type="number" class="input" placeholder="0"></div></div>
+<div class="grid2" style="margin-top:10px"><div><label>التاريخ والوقت</label><input id="fDate" type="datetime-local" class="input"></div><div><label>سعر الوحدة (DH)</label><input id="fPrice" type="number" class="input" placeholder="0"></div></div>
+<label style="margin-top:10px">صورة بون / عداد (اختيارية من الملفات)</label><input id="fImg" type="file" accept="image/png,image/jpeg" class="input"><img id="imgPrev" class="img-preview hidden">
+<label style="margin-top:10px">ملاحظات</label><textarea id="fNote" class="input" rows="2"></textarea>
+<button class="btn btn-primary" style="margin-top:12px" onclick="saveOp()">+ عملية الجمع</button>
+</div></div>
+<div id="page-list" class="hidden"><div class="card"><div class="card-title">سجل العمليات <button class="badge" onclick="exportExcel()">📥 Excel</button></div><div style="overflow:auto"><table><thead><tr><th>موقع</th><th>الكمية</th><th>سعر</th><th>تاريخ/صورة</th><th>إجراء</th></tr></thead><tbody id="tbody"></tbody></table></div></div></div>
+<div id="page-instruct" class="hidden"><div class="card"><div class="card-title">توجيهات من المسؤولين إلى البوانتور</div><div id="instructList"></div><div style="margin-top:10px"><label>إضافة توجيه (للإدارة فقط)</label><textarea id="inTxt" class="input" rows="2"></textarea><button class="btn btn-ghost" style="margin-top:6px" onclick="addInstruct()">إرسال التوجيه</button></div></div></div>
+<div id="page-chat" class="hidden"><div class="card"><div class="card-title">التواصل بين الأعضاء <span class="badge">عند توفر الإنترنت</span></div><div id="chatBox" style="max-height:320px;overflow:auto"></div><div style="display:flex;gap:6px;margin-top:10px"><input id="chatName" class="input" style="max-width:100px" placeholder="اسمك"><input id="chatMsg" class="input" placeholder="رسالة..."><button class="btn btn-primary" style="width:80px" onclick="sendChat()">إرسال</button></div></div></div>
+<div id="page-settings" class="hidden">
+<div class="card"><div class="card-title">الإعدادات العامة</div>
+<label>تغيير اسم التطبيق من داخله</label><input id="setAppName" class="input">
+<label style="margin-top:8px">تغيير الصورة / الأيقونة</label><input id="setAppIcon" class="input" placeholder="🚚">
+<div class="grid2" style="margin-top:10px"><div><label>اللغة</label><select id="setLang" class="input"><option value="ar">العربية</option><option value="fr">Français</option></select></div><div><label>الوحدة الافتراضية</label><select id="setDefUnit" class="input"><option>لتر</option><option>طن</option><option>قنطار</option></select></div></div>
+<div style="margin-top:10px"><label><input type="checkbox" id="setNotif" checked> تفعيل الإشعارات والتنبيهات</label></div>
+<button class="btn btn-primary" style="margin-top:12px" onclick="saveSettings()">حفظ الإعدادات</button>
+</div>
+<div class="card"><div class="card-title">الحماية والإدارة</div><label>كود المدير لتعديل المعلومات الهامة</label><input id="adminCode" type="password" class="input" value="1234"><button class="btn btn-ghost" style="margin-top:10px" onclick="closeApp()">زر الإغلاق 🔒</button><button class="btn btn-ghost" style="margin-top:8px;background:rgba(239,68,68,.12)" onclick="clearAll()">مسح البيانات (للإدارة)</button><button class="btn btn-ghost" style="margin-top:8px" onclick="exitApp()">زر الخروج 🚪</button></div>
+</div>
+</div>
+<div class="tabs">
+<div class="tab active" onclick="openPage('home')" id="t-home"><i>🏠</i>الرئيسية</div>
+<div class="tab" onclick="openPage('add')" id="t-add"><i>➕</i>إضافة</div>
+<div class="tab" onclick="openPage('list')" id="t-list"><i>📊</i>السجل</div>
+<div class="tab" onclick="openPage('chat')" i d="t-chat"><i>💬</i>تواصل</div>
+<div class="tab" onclick="openPage('settings')" id="t-settings"><i>⚙️</i>إعدادات</div>
+</div>
 <script>
-const datetimeEl=document.getElementById('datetime');datetimeEl.value=new Date().toISOString().slice(0,16);let ops=JSON.parse(localStorage.getItem('atm_ops')||'[]');let photoData='';document.getElementById('photo').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{photoData=ev.target.result;const p=document.getElementById('preview');p.src=photoData;p.style.display='block';};r.readAsDataURL(f);});function ajouter(){const engin=document.getElementById('engin').value||'ATM';const qte=parseFloat(document.getElementById('qte').value)||0;const unite=document.getElementById('unite').value;const prix=parseFloat(document.getElementById('prix').value)||0;const dt=datetimeEl.value||new Date().toISOString().slice(0,16);const note=document.getElementById('note').value;if(!qte){alert('دخل الكمية');return;}ops.unshift({engin,qte,unite,prix,dt,note,photo:photoData,total:qte*prix});localStorage.setItem('atm_ops',JSON.stringify(ops));render();}function render(){const tbody=document.querySelector('#table tbody');tbody.innerHTML='';ops.forEach(o=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${o.dt.replace('T',' ')}<br><small>${o.engin}</small></td><td>${o.qte} ${o.unite}</td><td>${o.prix}</td><td>${o.total.toFixed(2)}</td>`;tbody.appendChild(tr);});}function exporter(){let csv='Date,Engin,Quantite,Unite,Prix,Total,Note\n';ops.forEach(o=>{csv+=`"${o.dt}","${o.engin}",${o.qte},${o.unite},${o.prix},${o.total},"${o.note}"\n`;});const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='Operations_ATM.csv';a.click();}render();
+let ops=JSON.parse(localStorage.getItem('atm_ops_v2')||'[]');let instructs=JSON.parse(localStorage.getItem('atm_instruct')||'[]');let chats=JSON.parse(localStorage.getItem('atm_chat')||'[]');let settings=JSON.parse(localStorage.getItem('atm_settings')||'{}');if(!settings.appName)settings={appName:'عمليات أجهزة الصراف الآلي',appIcon:'🚚',lang:'ar',defUnit:'لتر',notif:true,adminCode:'1234'};
+function init(){document.getElementById('fDate').value=new Date().toISOString().slice(0,16);document.getElementById('dateNow').textContent=new Date().toLocaleString('ar-MA');applySettings();renderAll();document.getElementById('fImg').addEventListener('change',e=>{let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{document.getElementById('imgPrev').src=r.result;document.getElementById('imgPrev').classList.remove('hidden')};r.readAsDataURL(f);});}
+function applySettings(){document.getElementById('appNameTxt').textContent=settings.appName;document.getElementById('logoIcon').textContent=settings.appIcon;document.getElementById('setAppName').value=settings.appName;document.getElementById('setAppIcon').value=settings.appIcon;document.getElementById('setLang').value=settings.lang;document.getElementById('setDefUnit').value=settings.defUnit;document.getElementById('fUnit').value=settings.defUnit;document.getElementById('setNotif').checked=settings.notif;}
+function saveSettings(){settings.appName=document.getElementById('setAppName').value||settings.appName;settings.appIcon=document.getElementById('setAppIcon').value||'🚚';settings.lang=document.getElementById('setLang').value;settings.defUnit=document.getElementById('setDefUnit').value;settings.notif=document.getElementById('setNotif').checked;settings.adminCode=document.getElementById('adminCode').value||'1234';localStorage.setItem('atm_settings',JSON.stringify(settings));applySettings();showNotif('تم حفظ الإعدادات ✅');openPage('home');}
+function openPage(p){['home','add','list','instruct','chat','settings'].forEach(k=>{document.getElementById('page-'+k)?.classList.add('hidden');document.getElementById('t-'+k)?.classList.remove('active')});document.getElementById('page-'+p).classList.remove('hidden');document.getElementById('t-'+p)?.classList.add('active');if(p=='home')renderHome();if(p=='list')renderList();if(p=='instruct')renderInstruct();if(p=='chat')renderChat();window.scrollTo(0,0);}
+function saveOp(){let site=document.getElementById('fSite').value.trim();let unit=document.getElementById('fUnit').value;let qty=parseFloat(document.getElementById('fQty').value)||0;let date=document.getElementById('fDate').value;let price=parseFloat(document.getElementById('fPrice').value)||0;let note=document.getElementById('fNote').value;let img=document.getElementById('imgPrev').src||'';if(!site||!qty){showNotif('أدخل الموقع والكمية ⚠️');return;}let op={id:Date.now(),site,unit,qty,date,price,note,img,total:qty*price};ops.unshift(op);localStorage.setItem('atm_ops_v2',JSON.stringify(ops));document.getElementById('fSite').value='';document.getElementById('fQty').value='';document.getElementById('fPrice').value='';document.getElementById('fNote').value='';document.getElementById('imgPrev').classList.add('hidden');showNotif('تمت إضافة العملية ✅');renderAll();openPage('home');}
+function renderHome(){let total=ops.length;let sumQty=ops.reduce((a,b)=>a+b.qty,0);let sumCost=ops.reduce((a,b)=>a+b.total,0);document.getElementById('sTotal').textContent=total;document.getElementById('sLiter').textContent=sumQty.toFixed(1)+' '+(settings.defUnit||'لتر');document.getElementById('sCost').textContent=sumCost.toFixed(0)+' DH';let html=ops.slice(0,4).map(o=>`<div class="shortcut" style="margin-bottom:6px"><span>⛽</span><div style="flex:1"><b>${o.site} - ${o.qty} ${o.unit}</b><div style="font-size:11px;color:var(--muted)">${o.date?o.date.slice(0,16):''} • ${o.total.toFixed(0)} DH</div></div><span class="badge">${o.price} DH</span></div>`).join('')||'<div style="color:var(--muted)">لا توجد عمليات بعد</div>';document.getElementById('lastOps').innerHTML=html;}
+function renderList(){let tb=document.getElementById('tbody');tb.innerHTML=ops.map(o=>`<tr><td>${o.site}</td><td>${o.qty} ${o.unit}</td><td>${o.price} DH</td><td style="font-size:11px">${(o.date||'').slice(0,16)}<br>${o.img?'<a href="'+o.img+'" target="_blank">📷</a>':''}</td><td><button class="badge" onclick="editOp(${o.id})">✏️</button> <button class="badge" onclick="delOp(${o.id})">🗑️</button></td></tr>`).join('');}
+function editOp(id){let code=prompt('كود المدير:');if(code!==settings.adminCode){alert('كود خاطئ');return;}let o=ops.find(x=>x.id===id);let nQty=prompt('الكمية الجديدة:',o.qty);if(nQty!==null)o.qty=parseFloat(nQty)||o.qty;let nPrice=prompt('السعر الجديد:',o.price);if(nPrice!==null)o.price=parseFloat(nPrice)||o.price;o.total=o.qty*o.price;localStorage.setItem('atm_ops_v2',JSON.stringify(ops));renderAll();}
+function delOp(id){if(!confirm('حذف؟'))return;ops=ops.filter(x=>x.id!==id);localStorage.setItem('atm_ops_v2',JSON.stringify(ops));renderAll();}
+function renderAll(){renderHome();renderList();renderInstruct();renderChat();}
+function showNotif(t){document.getElementById('notifDesc').textContent=t;document.getElementById('notifBox').classList.remove('hidden');setTimeout(hideNotif,4000)}
+function hideNotif(){document.getElementById('notifBox').classList.add('hidden')}
+function exportExcel(){let csv="الموقع,الكمية,الوحدة,السعر,المجموع,التاريخ,ملاحظة\n"+ops.map(o=>`"${o.site}",${o.qty},"${o.unit}",${o.price},${o.total},"${o.date}","${o.note||''}"`).join("\n");let blob=new Blob(["\uFEFF"+csv],{type:'text/csv'});let url=URL.createObjectURL(blob);let a=document.createElement('a');a.href=url;a.download='ATM.csv';a.click();}
+function addInstruct(){let t=document.getElementById('inTxt').value.trim();if(!t)return;instructs.unshift({id:Date.now(),txt:t,date:new Date().toLocaleString('ar-MA')});localStorage.setItem('atm_instruct',JSON.stringify(instructs));document.getElementById('inTxt').value='';renderInstruct();showNotif('تم إرسال التوجيه 📢');}
+function renderInstruct(){document.getElementById('instructList').innerHTML=instructs.map(i=>`<div class="chat-msg"><b>📢 توجيه:</b> ${i.txt}<div style="font-size:11px;color:var(--muted)">${i.date}</div></div>`).join('')||'<div style="color:var(--muted)">لا توجد توجيهات</div>'}
+function sendChat(){let name=document.getElementById('chatName').value||'مجهول';let msg=document.getElementById('chatMsg').value.trim();if(!msg)return;chats.push({name,msg,date:new Date().toLocaleTimeString('ar-MA')});localStorage.setItem('atm_chat',JSON.stringify(chats));document.getElementById('chatMsg').value='';renderChat();}
+function renderChat(){document.getElementById('chatBox').innerHTML=chats.slice(-20).map(c=>`<div class="chat-msg"><b>${c.name}:</b> ${c.msg}<div style="font-size:10px;color:var(--muted)">${c.date}</div></div>`).join('')||'<div style="color:var(--muted)">ابدأ المحادثة...</div>'}
+function exitApp(){if(confirm('هل تريد الخروج؟')){window.close();location.href='about:blank'}}
+function closeApp(){if(confirm('إغلاق الجلسة؟')){alert('تم الإغلاق 🔒');location.reload();}}
+function clearAll(){let c=prompt('كود المدير:');if(c!==settings.adminCode)return alert('خطأ');if(confirm('مسح كل شيء؟')){localStorage.clear();location.reload();}}
+init();
 </script>
 </body>
 </html>
